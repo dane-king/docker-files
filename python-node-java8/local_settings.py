@@ -1,0 +1,82 @@
+from project.settings.base import *
+
+DEBUG = True
+
+# debug toolbar settings
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_COLLAPSED': True,
+}
+INTERNAL_IPS = ['127.0.0.1', '::1']
+
+USE_DEBUG_TOOLBAR = False #Broken
+
+if USE_DEBUG_TOOLBAR:
+    MIDDLEWARE_CLASSES.insert(0,
+        'debug_toolbar.middleware.DebugToolbarMiddleware',)
+
+SECRET_KEY = 'something super secret'
+
+CLIPS_DATABASE_ALIAS = 'default'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'intake',
+        'USER': 'postgres_user',
+        'PASSWORD': 'postgres_pwd',
+        "HOST" : 'db'
+    }
+}
+
+ALLOWED_HOSTS = []
+DEFAULT_HOST = 'https://localhost:8000'
+ONLY_SHOW_LIVE_COUNTIES = os.environ.get('ONLY_SHOW_LIVE_COUNTIES', 'False') == 'True'
+
+# settings for file uploads
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+MEDIA_ROOT = os.path.join(REPO_DIR, 'project', 'media')
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+MAIL_DEFAULT_SENDER = "admin@localhost"
+VOICEMAIL_NOTIFICATION_EMAIL = 'youremail@example.horse'
+PARTNERSHIPS_LEAD_INBOX = 'anotheremail@example.space'
+
+DIVERT_REMOTE_CONNECTIONS = True
+
+# specific to intake.translators.clean_slate.translator
+TEST_PDF_PATH = "./CleanSlateCombined.pdf"
+
+MIXPANEL_KEY = '12345'
+
+TWILIO_AUTH_TOKEN = '12345'
+
+
+COMPRESS_OFFLINE = False
+CELERY_TASK_ALWAYS_EAGER = True
+CELERY_BROKER_URL = 'amqp://localhost'
+
+BROWSER_STACK_ID = 'username'
+BROWSER_STACK_KEY = 'insert key here'
+
+TEST_USER_PASSWORD="my-example-password"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        },
+    },
+    'loggers': {
+        'project': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+        },
+    },
+}
